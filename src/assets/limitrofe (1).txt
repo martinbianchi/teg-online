@@ -1,0 +1,91 @@
+africa
+
+sahara: 'brasil', 'españa', 'egipto', 'etiopia', 'nigeria'
+nigeria: 'uruguay', 'sahara', 'etiopia', 'angola', 'mauritania', 'sudafrica'
+sudafrica: 'nigeria', 'mauritania', 'madagascar'
+mauritania: 'nigeria', 'sudafrica', 'madagascar'
+madagascar: 'sudafrica', 'mauritania', 'egipto'
+angola: 'mauritania', 'nigeria', 'etiopia'
+etiopia: 'sahara', 'egipto', 'nigeria', 'angola'
+egipto: 'sahara', 'etiopia', 'madagascar', 'israel', 'polonia', 'irak'
+
+oceania
+
+sumatra: 'india', 'australia'
+filipinas: 'vietnam', 'australia', 'tonga'
+tonga: 'filipinas', 'australia', 'california'
+australia: 'sumatra', 'filipinas', 'tonga', 'tasmania', 'chile'
+tasmania: 'australia', 'nueva zelanda'
+nueva zelanda: 'tasmania'
+
+asia
+
+rusia: 'siberia', 'chechenia', 'china', 'iran', 'turquia', 'ucrania'
+iran: 'ucrania', 'rusia', 'irak', 'turquia'
+irak: 'egipto', 'albania', 'israel', 'turquia', 'iran'
+israel: 'irak', 'egipto', 'arabia', 'turquia'
+arabia: 'israel'
+turquia: 'israel', 'irak', 'iran', 'rusia', 'china', 'india'
+india: 'turquia', 'sumatra', 'china', 'malasia', 'vietnam'
+vietnam: 'india', 'filipinas', 'malasia', 'corea'
+malasia: 'india', 'vietnam', 'china', 'corea'
+corea: 'malasia', 'vietnam', 'japon', 'kamchatka', 'china'
+china: 'turquia', 'india', 'malasia', 'corea', 'kamchatka', 'chokchi', 'siberia', 'chechenia', 'rusia'
+japon: 'corea', 'kamchatka'
+kamchatka: 'japon', 'china', 'chokchi', 'corea', 'alaska'
+chokchi: 'kamchatka', 'china', 'alaska'
+siberia: 'china', 'rusia', 'chechenia'
+chechenia: 'rusia', 'siberia', 'china'
+
+europa
+
+islandia: 'groenlandia', 'irlanda', 'noruega'
+irlanda: 'islandia', 'gran bretaña'
+gran bretaña: 'irlanda', 'portugal', 'alemania'
+portugal: 'gran bretaña', 'españa'
+españa: 'portugal', 'sahara', 'francia'
+francia: 'españa', 'italia', 'alemania'
+italia: 'francia', 'alemania', 'croacia'
+alemania: 'francia', 'italia', 'croacia', 'serbia', 'polonia', 'gran bretaña'
+croacia: 'italia', 'alemania', 'serbia, 'polonia'
+polonia: 'croacia', 'serbia', 'alemania', 'egipto', 'albania', 'ucrania', 'bielorrusia'
+albania: 'irak', 'polonia', 'iran', 'ucrania'
+ucrania' 'bielorrusia', 'polonia', 'albania', 'iran', 'rusia'
+bielorrusia: 'ucrania', 'polonia, 'finlandia'
+finlandia: 'bielorrusia', 'noruega'
+noruega: 'finlandia', 'islandia'
+
+america del norte
+
+alaska: 'chokchi', 'canada', 'kamchatka'
+canada: 'alaska', 'isla victoria', 'oregon', 'terranova'
+oregon: 'canada', 'terranova', 'chicago', 'las vegas'
+las vegas: 'oregon', 'chicago', 'florida', 'california'
+california: 'las vegas', 'tonga', 'mexico', 'florida'
+florida: 'california', 'cuba', 'las vegas', 'chicago'
+chicago: 'florida', 'las vegas', 'oregon', 'terranova', 'nueva york'
+terranova: 'canada', 'oregon', 'chicago', 'labrador'
+nueva york: 'chicago', 'groenlandia'
+groenlandia: 'islandia', 'nueva york', 'labrador', 'isla victoria'
+labrador: 'terranova', 'groenlandia'
+isla victoria: 'canada', 'groenlandia'
+
+america central
+
+mexico: 'california', 'cuba', 'honduras'
+cuba: 'mexico', 'florida', 'honduras', 'jamaica'
+honduras: 'mexico', 'cuba', 'el salvador'
+el salvador: 'honduras', 'nicaragua'
+nicaragua: 'el salvador', 'colombia', 'jamaica'
+jamaica: 'nicaragua', 'cuba'
+
+america del sur
+
+colombia: 'nicaragua', 'venezuela', 'brasil', 'chile'
+venezuela: 'colombia', 'brasil'
+chile: 'colombia', 'brasil', 'bolivia', 'argentina', 'australia'
+bolivia: 'chile', 'argentina', 'paraguay', 'brasil'
+argentina: 'chile', 'bolivia', 'paraguay', 'uruguay'
+uruguay: 'argentina', 'brasil', 'nigeria'
+paraguay: 'argentina', 'uruguay', 'brasil', 'bolivia'
+brasil: 'colombia', 'venezuela', 'chile', 'bolivia', 'paraguay', 'argentina', 'uruguay', 'sahara'

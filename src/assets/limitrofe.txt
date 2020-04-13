@@ -1,0 +1,8 @@
+sahara: 'brasil', 'españa', 'egipto', 'etiopia', 'nigeria'
+nigeria: 'uruguay', 'sahara', 'etiopia', 'angola', 'mauritania', 'sudafrica'
+sudafrica: 'nigeria', 'mauritania', 'madagascar'
+mauritania: 'nigeria', 'sudafrica', 'madagascar'
+madagascar: 'sudafrica', 'mauritania', 'egipto'
+angola: 'mauritania', 'nigeria', 'etiopia'
+etiopia: 'sahara', 'egipto', 'nigeria', 'angola'
+egipto: 'sahara', 'etiopia', 'madagascar', 'israel', 'polonia', 'irak'

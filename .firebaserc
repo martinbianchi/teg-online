@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "teg-online-777": {
+      "hosting": {
+        "teg": [
+          "teg-online-777"
+        ]
+      }
+    }
+  }
+}

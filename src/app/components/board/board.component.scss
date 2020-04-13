@@ -1,0 +1,39 @@
+path:hover {
+    cursor: pointer;
+}
+
+.container{
+    display: flex;
+}
+
+.afrika {
+    stroke: #b57500!important;
+    fill: #ffab4f!important;
+    stroke-width: 0.5px!important;
+
+    &.first-selected{
+        fill:#ffd892 !important;
+    }
+
+    &.second-selected{
+        fill:#ffd892!important;
+    }
+}
+
+.afrika:hover {
+    fill: #b57500!important;
+}
+
+.sahara-army {
+    position: absolute;
+    height: 20px;
+    width: 20px;
+    top: 0;
+    left: 0;
+    background-color: green;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}

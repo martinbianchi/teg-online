@@ -1,0 +1,51 @@
+<ng-container *ngIf="(myPlayer$ | async) as me">
+    <div class="card-container" [formGroup]="cardForm">
+        <div class="card">
+            <p>{{me.cards[0]?.symbol}}</p>
+            <p>{{me.cards[0]?.country}}</p>
+            <div>
+                <button *ngIf="!me.cards[0]?.used" (click)="onUseCard(me.cards[0])">USE CARD</button>
+                <input *ngIf="me.cards[0]" [value]="me.cards[0]" formControlName="firstCard" type="checkbox" name=""
+                    id="">
+            </div>
+        </div>
+        <div class="card">
+            <p>{{me.cards[1]?.symbol}}</p>
+            <p>{{me.cards[1]?.country}}</p>
+            <div>
+                <button *ngIf="!me.cards[1]?.used" (click)="onUseCard(me.cards[1])">USE CARD</button>
+                <input *ngIf="me.cards[1]" [value]="me.cards[1]" formControlName="secondCard" type="checkbox" name=""
+                    id="">
+            </div>
+        </div>
+        <div class="card">
+            <p>{{me.cards[2]?.symbol}}</p>
+            <p>{{me.cards[2]?.country}}</p>
+            <div>
+                <button *ngIf="!me.cards[2]?.used" (click)="onUseCard(me.cards[2])">USE CARD</button>
+                <input *ngIf="me.cards[2]" [value]="me.cards[2]" formControlName="thirdCard" type="checkbox" name=""
+                    id="">
+            </div>
+        </div>
+        <div class="card">
+            <p>{{me.cards[3]?.symbol}}</p>
+            <p>{{me.cards[3]?.country}}</p>
+            <div>
+                <button *ngIf="!me.cards[3]?.used" (click)="onUseCard(me.cards[3])">USE CARD</button>
+                <input *ngIf="me.cards[3]" [value]="me.cards[3]" formControlName="fourthCard" type="checkbox" name=""
+                    id="">
+            </div>
+        </div>
+        <div class="card">
+            <p>{{me.cards[4]?.symbol}}</p>
+            <p>{{me.cards[4]?.country}}</p>
+            <div>
+                <button *ngIf="!me.cards[4]?.used" (click)="onUseCard(me.cards[4])">USE CARD</button>
+                <input *ngIf="me.cards[4]" [value]="me.cards[4]" formControlName="fifthCard" type="checkbox" name=""
+                    id="">
+            </div>
+        </div>
+
+        <button (click)="onSwap()" *ngIf="me.cards.length">SWAP</button>
+    </div>
+</ng-container>
