@@ -15,7 +15,6 @@ export class SelectCountryDirective implements OnInit {
     private mapService: MapService
   ) {
     this.elemRef = _elementRef;
-    console.log(this.elemRef);
   }
 
   ngOnInit(): void {

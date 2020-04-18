@@ -1,9 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { TurnService } from 'src/app/services/turn.service';
 import { GameService } from 'src/app/services/game.service';
-import { tap } from 'rxjs/operators';
+import { tap, map } from 'rxjs/operators';
 import { Round } from 'src/app/models/round.model';
 import { Observable } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { FirebaseService } from 'src/app/services/firebase.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-turn-actions',
@@ -21,11 +24,17 @@ export class TurnActionsComponent implements OnInit {
 
   constructor(
     private turnService: TurnService,
-    private gameService: GameService
+    private gameService: GameService,
+    private firebaseService: FirebaseService,
+    private activatedRoute: ActivatedRoute,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
-    this.round$ = this.gameService.round$.pipe(
+    const key = this.activatedRoute.snapshot.params['id'];
+    this.round$ = this.firebaseService.getGame(key).pipe(
+      // tap(g => this.gameService.setFreshGame(g)),
+      map(game => game.round),
       tap(this.evaluateTurn)
     );
   }
@@ -35,7 +44,7 @@ export class TurnActionsComponent implements OnInit {
   }
 
   getMyId = () => {
-    return localStorage.getItem('my_id');
+    return this.authService.getUserId();
   }
 
   addArmies = () => {
@@ -43,7 +52,16 @@ export class TurnActionsComponent implements OnInit {
   }
 
   attackCountries = () => {
-    this.turnService.attackCountry(this.selectedOne, this.selectedTwo);
+    const attackResult = this.turnService.attackCountry(this.selectedOne, this.selectedTwo);
+    let quantityArmies = 1;
+    if (attackResult.conquered) {
+      // TODO: ask for armies to pass
+      do {
+        quantityArmies = +prompt("How many armies do you want to move?", "Move armies");
+      } while (quantityArmies <= 0 || quantityArmies > 3);
+
+    }
+    this.gameService.updateAfterAttack(this.selectedOne, this.selectedTwo, attackResult, quantityArmies);
   }
 
   moveArmies = () => {

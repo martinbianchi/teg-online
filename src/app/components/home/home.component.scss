@@ -1,0 +1,21 @@
+.create-game {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    align-content: center;
+    justify-content: center;
+    margin: 0 auto;
+    padding: 24px;
+    background: #fbfbfb;
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+}
+
+.container {
+    margin: 2rem auto;
+    width: 70%;
+    padding: 24px;
+    background: #fbfbfb;
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+}

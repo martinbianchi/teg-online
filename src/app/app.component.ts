@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { GameService } from './services/game.service';
-import { TurnService } from './services/turn.service';
-import { DUMMY_PLAYERS } from './constants/players.constants';
-import { Observable } from 'rxjs';
-import { Game } from './models/game.model';
+import { FirebaseService } from './services/firebase.service';
+import { AngularFireAuth } from '@angular/fire/auth/';
+import { AuthService } from './services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -12,16 +11,25 @@ import { Game } from './models/game.model';
 })
 export class AppComponent implements OnInit {
 
-  game$: Observable<Game> = this.gameService.game$;
+  allGames$ = this.firebaseService.getAllGames();
 
   constructor(
-    private gameService: GameService,
-    private turnService: TurnService
+    private firebaseService: FirebaseService,
+    private authFire: AngularFireAuth,
+    private authService: AuthService,
+    private router: Router
   ) { }
 
+
   ngOnInit(): void {
-    localStorage.setItem('my_id', '1');
-    const players = DUMMY_PLAYERS;
-    this.gameService.newGame(players);
+    this.authFire.authState.subscribe((state) => {
+      if (state?.uid) {
+        this.authService.setUserLogged(state.uid, state.displayName);
+        this.router.navigate(['']);
+      } else {
+        this.authService.logoutUser();
+        this.router.navigate(['login']);
+      }
+    });
   }
 }

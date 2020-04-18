@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Country } from '../models/country.model';
 import { GameService } from './game.service';
+import { AuthService } from './auth.service';
 
 @Injectable({ providedIn: 'root' })
 export class MapService {
@@ -13,7 +14,8 @@ export class MapService {
 
 
     constructor(
-        private gameService: GameService
+        private gameService: GameService,
+        private authService: AuthService
     ) { }
 
     selectCountry = (countryName) => {
@@ -57,7 +59,7 @@ export class MapService {
     }
 
     getMyId = () => {
-        return localStorage.getItem('my_id');
+        return this.authService.getUserId();
     }
 
     selectWithAddArmyRules = (countrySelected: Country) => {

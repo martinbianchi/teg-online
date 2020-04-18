@@ -33,16 +33,15 @@ export class TurnService {
 
         const attackResult = this.evaluateDices(attackDices, defenderDices);
 
+        const currentTurn = this.gameService.getCurrentTurn();
         if (attackResult.defenderLostArmies >= defender.armies) {
             attackResult.conquered = true;
             attackResult.attackerLostArmies += 1;
-
-            const currentTurn = this.gameService.getCurrentTurn();
-            currentTurn.conqueredCountries += 1;
-            this.gameService.updateTurn(currentTurn);
         }
 
-        this.gameService.updateAfterAttack(attacker, defender, attackResult);
+        // this.gameService.updateAfterAttack(attacker, defender, attackResult, currentTurn);
+
+        return attackResult;
     }
 
     addArmies = (countryName: string, quantity: number) => {
@@ -61,8 +60,8 @@ export class TurnService {
             currentTurn.armiesAdded = true;
         }
 
-        this.gameService.updateCountry(country);
-        this.gameService.updateTurn(currentTurn);
+        this.gameService.updateGame2(currentTurn, country, null);
+        // this.gameService.updateTurn(currentTurn);
     }
 
     private dontHaveMoreArmies = (armiesToAdd: ArmiesToAdd) => {
@@ -74,21 +73,25 @@ export class TurnService {
         const fromCountryIdx = player.countries.findIndex(c => c.name === fromCountry);
         const toCountryIdx = player.countries.findIndex(c => c.name === toCountry);
         const updatedPlayer = _.cloneDeep(player);
-        updatedPlayer.countries[fromCountryIdx] = {
-            ...updatedPlayer.countries[fromCountryIdx],
-            armies: updatedPlayer.countries[fromCountryIdx].armies - quantity
-        }
 
-        updatedPlayer.countries[toCountryIdx] = {
-            ...updatedPlayer.countries[toCountryIdx],
-            armies: updatedPlayer.countries[toCountryIdx].armies + quantity
-        }
-        this.gameService.updatePlayer(updatedPlayer);
+        if (updatedPlayer.countries[fromCountryIdx].armies > quantity) {
+            updatedPlayer.countries[fromCountryIdx] = {
+                ...updatedPlayer.countries[fromCountryIdx],
+                armies: updatedPlayer.countries[fromCountryIdx].armies - quantity
+            }
 
-        const currentTurn = this.gameService.getCurrentTurn();
-        if (!currentTurn.attacked) {
-            currentTurn.attacked = true;
-            this.gameService.updateTurn(currentTurn);
+            updatedPlayer.countries[toCountryIdx] = {
+                ...updatedPlayer.countries[toCountryIdx],
+                armies: updatedPlayer.countries[toCountryIdx].armies + quantity
+            }
+
+            const currentTurn = this.gameService.getCurrentTurn();
+            if (!currentTurn.attacked) {
+                currentTurn.attacked = true;
+                this.gameService.updateGame2(currentTurn, null, updatedPlayer);
+            } else {
+                this.gameService.updateGame2(null, null, updatedPlayer);
+            }
         }
     }
 
@@ -141,7 +144,7 @@ export class TurnService {
                 player.countries[countryCardIdx].armies += 3;
                 player.cards[cardUsedIdx].used = true;
 
-                this.gameService.updatePlayer(player);
+                this.gameService.updateGame2(null, null, player);
             }
         }
 
@@ -152,15 +155,19 @@ export class TurnService {
 
         if (currentTurn.conqueredCountries >= currentTurn.player.requiredCountriesToGetCard) {
             const player = this.gameService.getPlayer(currentTurn.player.id);
+            if (!player.cards) { // Firebase remove automatically empty properties.
+                player.cards = [];
+            }
             if (player.cards.length < 5) {
-                const card = this.gameService.getNextCard();
-                player.cards.push(card);
-                this.gameService.updatePlayer(player);
+                const result = this.gameService.getNextCard();
+                player.cards.push(result.card);
 
                 currentTurn.attacked = true;
                 currentTurn.regrouped = true;
                 currentTurn.getCard = true;
-                this.gameService.updateTurn(currentTurn);
+                // this.gameService.updatePlayer(player);
+                // this.gameService.updateTurn(currentTurn);
+                this.gameService.updateGame2(currentTurn, null, player, result.updatedDeck);
             }
 
         }
@@ -185,7 +192,9 @@ export class TurnService {
         const quantityOfArmies = this.swapService.getNumberOfArmies(player.swaps);
         turn.armiesToAdd.general += quantityOfArmies;
 
-        this.gameService.updateTurn(turn);
-        this.gameService.updatePlayer(player);
+        // this.gameService.updateTurn(turn);
+        // this.gameService.updatePlayer(player);
+
+        this.gameService.updateGame2(turn, null, player);
     }
 }

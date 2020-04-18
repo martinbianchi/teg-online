@@ -1,0 +1,46 @@
+<ng-container *ngIf="(game$ | async) as game">
+    <div class="container" *ngIf="!userJoined" [formGroup]="joinGameForm">
+        <nz-form-item>
+            <nz-form-label [nzSpan]="6" nzFor="name">Your nickname for this game</nz-form-label>
+            <nz-form-control [nzSpan]="8">
+                <input formControlName="nickname" nz-input name="name" type="text" id="game">
+            </nz-form-control>
+        </nz-form-item>
+
+        <p>Now choose your color:</p>
+        <nz-radio-group formControlName="color">
+            <label nz-radio nzValue="red" [nzDisabled]="colorsInUse.includes('red')">red</label>
+            <label nz-radio nzValue="green">green</label>
+            <label nz-radio nzValue="blue">blue</label>
+            <label nz-radio nzValue="pink">pink</label>
+            <label nz-radio nzValue="yellow">yellow</label>
+            <label nz-radio nzValue="white">white</label>
+        </nz-radio-group>
+        <nz-divider></nz-divider>
+        <nz-form-control>
+            <button (click)="onJoinGame()" nz-button nzType="primary">JOIN GAME</button>
+        </nz-form-control>
+    </div>
+
+
+    <div class="container">
+        <h1>{{game.name}}</h1>
+        <h3>Waiting for players...</h3>
+        <nz-list>
+            <nz-list-item *ngFor="let item of game.players">
+                <nz-skeleton *ngIf="!item" [nzAvatar]="true" [nzParagraph]="{ rows: 1 }"></nz-skeleton>
+                <nz-list-item-meta *ngIf="item" [nzTitle]="nzTitle" [nzAvatar]="nzAvatar">
+                    <ng-template #nzTitle>
+                        <p>{{ item.name }}</p>
+                    </ng-template>
+                    <ng-template #nzAvatar>
+                        <div class="color" [ngStyle]="{background: item.color}"></div>
+                    </ng-template>
+                </nz-list-item-meta>
+            </nz-list-item>
+        </nz-list>
+        <nz-form-control>
+            <button (click)="onInitGame()" nz-button nzType="primary">INIT GAME</button>
+        </nz-form-control>
+    </div>
+</ng-container>

@@ -5,18 +5,21 @@ import { Player } from 'src/app/models/player.model';
 import { Observable, combineLatest } from 'rxjs';
 import { TurnService } from 'src/app/services/turn.service';
 import { MapService } from 'src/app/services/map.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FirebaseService } from 'src/app/services/firebase.service';
+import { Game } from 'src/app/models/game.model';
 
 @Component({
   selector: 'app-board',
   templateUrl: './board.component.html',
-  styleUrls: ['./board.component.scss']
+  styleUrls: ['./board.component.scss'],
+  providers: []
 })
 export class BoardComponent implements OnInit, AfterViewInit {
 
   countriesMapped = [];
   @ViewChildren('country') countries: QueryList<ElementRef>;
 
-  game$ = this.gameService.game$;
   players$: Observable<Player[]>;
 
   firstSelectedCountry$ = this.mapService.firstSelectedCountry$;
@@ -24,15 +27,19 @@ export class BoardComponent implements OnInit, AfterViewInit {
 
   constructor(
     private cd: ChangeDetectorRef,
-    private gameService: GameService,
-    private turnService: TurnService,
-    private mapService: MapService
+    private mapService: MapService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private firebaseService: FirebaseService
   ) { }
 
   ngOnInit(): void {
-    this.players$ = this.gameService.game$.pipe(
+    const key = this.route.snapshot.params['id'];
+    this.players$ = this.firebaseService.getGame(key).pipe(
+      tap(g => this.checkWinner(g)),
       map(game => game.players),
     );
+    // this.gameService.getGamee(key).subscribe();
   }
 
   ngAfterViewInit() {
@@ -59,15 +66,17 @@ export class BoardComponent implements OnInit, AfterViewInit {
       countriesRef.forEach(countryRef => {
         const countryName = countryRef.nativeElement.id;
         players.forEach(p => {
-          const countryIdx = p.countries.findIndex(c => c.name === countryName);
-          if (countryIdx !== -1) {
-            const country = p.countries[countryIdx];
-            this.countriesMapped.push({
-              ref: countryRef,
-              armies: country.armies,
-              color: p.color
-            });
+          if (p.countries) {
+            const countryIdx = p.countries.findIndex(c => c.name === countryName);
+            if (countryIdx !== -1) {
+              const country = p.countries[countryIdx];
+              this.countriesMapped.push({
+                ref: countryRef,
+                armies: country.armies,
+                color: p.color
+              });
 
+            }
           }
         });
       });
@@ -77,6 +86,12 @@ export class BoardComponent implements OnInit, AfterViewInit {
   triggerChanges = () => {
     this.countries.notifyOnChanges();
     this.cd.detectChanges();
+  }
+
+  checkWinner = (game: Game) => {
+    if (game.finished) {
+      this.router.navigate(['../congrats'], { relativeTo: this.route });
+    }
   }
 
   onClicked = () => alert('clicked');

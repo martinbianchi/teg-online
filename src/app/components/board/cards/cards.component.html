@@ -1,5 +1,5 @@
 <ng-container *ngIf="(myPlayer$ | async) as me">
-    <div class="card-container" [formGroup]="cardForm">
+    <div class="card-container" [formGroup]="cardForm" *ngIf="me?.cards?.length > 0">
         <div class="card">
             <p>{{me.cards[0]?.symbol}}</p>
             <p>{{me.cards[0]?.country}}</p>

@@ -1,22 +1,61 @@
 import { Injectable } from '@angular/core';
 import { Game } from '../models/game.model';
-import { AngularFireDatabase } from '@angular/fire/database/database';
+import { Observable, of } from 'rxjs';
+import { AngularFireDatabase } from '@angular/fire/database';
+import { tap, shareReplay } from 'rxjs/operators';
+import { Round } from '../models/round.model';
+import { Player } from '../models/player.model';
 
 @Injectable({ providedIn: 'root' })
 export class FirebaseService {
 
-    game$;
-
+    _game: Game;
+    _round: Round;
+    playersOrder: Player[];
     constructor(
         private db: AngularFireDatabase
     ) {
-        this.game$ = db.list('game').valueChanges();
+
     }
+
+
 
     updateGame = (game: Game) => {
-        const itemRef = this.db.object('game');
-        itemRef.set(game);
+        const actualGame = localStorage.getItem('game_key');
+        this.db.object('game/' + actualGame).set(game);
     }
 
-    setGameListener = (gameId) => { }
+    createGame = (game: Game) => {
+        const itemRef = this.db.list('game');
+        const ref = itemRef.push(game);
+        return ref.key;
+    }
+
+    getAllGames = () => {
+        return this.db.list('game').snapshotChanges().pipe(
+        );
+    }
+
+    // setGameListener = (gameId) => {
+    //     this.game$ = this.db.object<Game>('game/' + gameId).valueChanges().pipe(
+    //         tap(console.log),
+    //         shareReplay(),
+
+    //     );
+    // }
+
+    getGame = (gameId) => {
+        const itemRef = this.db.object<Game>('game/' + gameId).valueChanges().
+            pipe(tap((game) => {
+                this._game = game;
+                this._round = game.round;
+                this.playersOrder = game.playersOrder;
+            }));
+        return itemRef;
+    }
+
+    removeList = () => {
+        const itemsRef = this.db.list('game');
+        itemsRef.remove();
+    }
 }

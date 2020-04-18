@@ -2,28 +2,126 @@ path:hover {
     cursor: pointer;
 }
 
-.container{
+.container {
     display: flex;
 }
 
 .afrika {
-    stroke: #b57500!important;
-    fill: #ffab4f!important;
-    stroke-width: 0.5px!important;
+    stroke: #b57500 !important;
+    fill: #ffab4f !important;
+    stroke-width: 0.5px !important;
 
-    &.first-selected{
-        fill:#ffd892 !important;
+    &.first-selected {
+        fill: #ffd892 !important;
     }
 
-    &.second-selected{
-        fill:#ffd892!important;
+    &.second-selected {
+        fill: #ffd892 !important;
+    }
+
+    &:hover {
+        fill: #b57500 !important;
     }
 }
 
-.afrika:hover {
-    fill: #b57500!important;
+.northamerica {
+    fill: #ffb3b3 !important;
+    stroke-width: 0.5px !important;
+    stroke: #d19090 !important;
+
+    &.first-selected {
+        fill: #ffd1d1 !important;
+    }
+    &.second-selected {
+        fill: #ffd1d1 !important;
+    }
+    &:hover {
+        fill: #d19090 !important;
+    }
 }
 
+.centralamerica {
+    stroke: #e2db9b !important;
+    fill: #fff497 !important;
+    stroke-width: 0.5px !important;
+
+    &.first-selected {
+        fill: #f8f3c2 !important;
+    }
+
+    &.second-selected {
+        fill: #f8f3c2 !important;
+    }
+
+    &:hover {
+        fill: #e2db9b !important;
+    }
+}
+
+.southamerica {
+    fill: #a6fff7 !important;
+    stroke-width: 0.5px !important;
+    stroke: #88d3cd !important;
+
+    &.first-selected {
+        fill: #c9fbf7 !important;
+    }
+    &.second-selected {
+        fill: #c9fbf7 !important;
+    }
+    &:hover {
+        fill: #88d3cd !important;
+    }
+}
+
+.oceania {
+    fill: #97dfff !important;
+    stroke: #7fb9d3 !important;
+
+    &.first-selected {
+        fill: #d0f1ff !important;
+    }
+    &.second-selected {
+        fill: #d0f1ff !important;
+    }
+    &:hover {
+        fill: #7fb9d3 !important;
+    }
+}
+
+.europe {
+    fill: #fdc9ef !important;
+    stroke: #c192b4 !important;
+    stroke-width: 0.5px !important;
+
+    &.first-selected {
+        fill: #fdc9ef !important;
+    }
+    &.second-selected {
+        fill: #fdc9ef !important;
+    }
+    &:hover {
+        fill: #c192b4 !important;
+    }
+}
+
+.asia {
+    stroke: #a4c795 !important;
+    fill: #daf3cf !important;
+    stroke-width: 0.5px !important;
+
+    &.first-selected {
+        fill: #e7fdde !important;
+    }
+
+    &.second-selected {
+        fill: #e7fdde !important;
+    }
+
+    &:hover {
+        fill: #a4c795 !important;
+    }
+}
 .sahara-army {
     position: absolute;
     height: 20px;

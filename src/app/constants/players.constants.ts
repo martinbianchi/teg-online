@@ -9,6 +9,7 @@ export const DUMMY_PLAYERS: Player[] = [
         requiredCountriesToGetCard: 1,
         swaps: 0,
         color: 'green',
+        name: 'player 1'
     },
     {
         cards: [],
@@ -17,7 +18,38 @@ export const DUMMY_PLAYERS: Player[] = [
         id: '2',
         requiredCountriesToGetCard: 1,
         swaps: 0,
-        color: 'blue'
+        color: 'blue',
+        name: 'player 2'
+    },
+    {
+        cards: [],
+        countries: [],
+        goal: null,
+        id: '3',
+        requiredCountriesToGetCard: 1,
+        swaps: 0,
+        color: 'pink',
+        name: 'player 2'
+    },
+    {
+        cards: [],
+        countries: [],
+        goal: null,
+        id: '4',
+        requiredCountriesToGetCard: 1,
+        swaps: 0,
+        color: 'red',
+        name: 'player 2'
+    },
+    {
+        cards: [],
+        countries: [],
+        goal: null,
+        id: '5',
+        requiredCountriesToGetCard: 1,
+        swaps: 0,
+        color: 'brown',
+        name: 'player 2'
     },
     // {
     //     cards: [],

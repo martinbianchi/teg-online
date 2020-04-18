@@ -1,0 +1,56 @@
+<h3>Hello {{(user$ | async).displayName}}</h3>
+
+
+<ng-container *ngIf="(games$ | async) as games">
+    <div class="container">
+        <h3>Join a game</h3>
+        <nz-list>
+            <nz-list-item (click)="goToGame(item.key)" *ngFor="let item of games">
+                <nz-skeleton *ngIf="!item" [nzParagraph]="{ rows: 1 }"></nz-skeleton>
+                <nz-list-item-meta *ngIf="item" [nzTitle]="nzTitle">
+                    <ng-template #nzTitle>
+                        <p>{{ item.key }}</p>
+                    </ng-template>
+                </nz-list-item-meta>
+            </nz-list-item>
+        </nz-list>
+    </div>
+</ng-container>
+
+<nz-divider [nzText]="'or'"></nz-divider>
+
+<form nz-form class="create-game" [formGroup]="newGameForm">
+    <h2>Create a game</h2>
+    <nz-form-item>
+        <nz-form-label [nzSpan]="6" nzFor="name">Game name</nz-form-label>
+        <nz-form-control [nzSpan]="14">
+            <input formControlName="name" nz-input name="game" type="text" id="game">
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label [nzSpan]="6" nzFor="name">Your nickname for this game</nz-form-label>
+        <nz-form-control [nzSpan]="8">
+            <input formControlName="nickname" nz-input name="name" type="text" id="game">
+        </nz-form-control>
+    </nz-form-item>
+
+    <p>Now choose your color:</p>
+    <nz-radio-group formControlName="color">
+        <label nz-radio nzValue="red">red</label>
+        <label nz-radio nzValue="green">green</label>
+        <label nz-radio nzValue="blue">blue</label>
+        <label nz-radio nzValue="pink">pink</label>
+        <label nz-radio nzValue="yellow">yellow</label>
+        <label nz-radio nzValue="white">white</label>
+    </nz-radio-group>
+    <nz-divider></nz-divider>
+    <nz-form-control [nzSpan]="14" [nzOffset]="20">
+        <button (click)="onNewGame()" nz-button nzType="primary">CREATE GAME</button>
+    </nz-form-control>
+
+    <nz-form-control [nzSpan]="14" [nzOffset]="20">
+        <button (click)="removeGames()" nz-button nzType="primary">REMOVE GAMES</button>
+    </nz-form-control>
+
+
+</form>

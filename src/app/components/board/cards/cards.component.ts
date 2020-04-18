@@ -2,11 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { GameService } from 'src/app/services/game.service';
 import { Observable } from 'rxjs';
 import { Player } from 'src/app/models/player.model';
-import { map, tap } from 'rxjs/operators';
+import { map, tap, filter } from 'rxjs/operators';
 import { TurnService } from 'src/app/services/turn.service';
 import { Card } from 'src/app/models/card.model';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { SwapService } from 'src/app/services/swap.service';
+import { ActivatedRoute } from '@angular/router';
+import { FirebaseService } from 'src/app/services/firebase.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-cards',
@@ -24,18 +27,25 @@ export class CardsComponent implements OnInit {
     private gameService: GameService,
     private turnService: TurnService,
     private swapService: SwapService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private firebaseService: FirebaseService,
+    private authService: AuthService,
   ) { }
 
   ngOnInit(): void {
     this.cardForm = this.modelCreate();
-    const myId = localStorage.getItem('my_id');
-    this.myPlayer$ = this.gameService.game$.pipe(
+    const myId = this.authService.getUserId();
+    const key = this.route.snapshot.params['id'];
+    this.myPlayer$ = this.firebaseService.getGame(key).pipe(
+      filter(g => g != null),
+      // tap(g => this.gameService.setFreshGame(g)),
       map(g => g.players),
-      map(players => players.find(p => p.id === myId)),
+      filter(p => p != null),
+      map(players => players?.find(p => p.id === myId)),
       tap((player) => {
         this.cardForm?.reset();
-        this.cards = player.cards;
+        this.cards = player?.cards ? player.cards : [];
       })
     );
   }

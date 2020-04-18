@@ -5,6 +5,7 @@ import { ArmiesToAdd } from './armies-to-add.model';
 
 export interface Player {
     id: string;
+    name: string;
     countries: Country[];
     cards: Card[];
     goal: Goal;
