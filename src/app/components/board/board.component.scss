@@ -4,6 +4,12 @@ path:hover {
 
 .container {
     display: flex;
+    height: 100vh;
+    flex-direction: column;
+
+    .board {
+        display: flex;
+    }
 
     svg {
         flex: 100%;

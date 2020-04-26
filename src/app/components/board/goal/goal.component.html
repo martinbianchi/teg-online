@@ -1,0 +1,4 @@
+<div class="goal" *ngIf="(myPlayer$ | async) as me">
+    <h3>Objetivo:</h3>
+    <p>{{me?.goal?.title}}</p>
+</div>

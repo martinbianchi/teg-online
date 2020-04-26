@@ -1,11 +1,11 @@
-<ng-container *ngIf="(playerTurnArmies$ | async) as armies">
-    <h3>Ejercitos: </h3>
-    <p><strong>Libre: </strong>{{armies.general}}</p>
-    <p><strong>America del norte: </strong>{{armies.northAmerica}}</p>
-    <p><strong>America central: </strong>{{armies.centralAmerica}}</p>
-    <p><strong>America del sur: </strong>{{armies.southAmerica}}</p>
-    <p><strong>Asia: </strong>{{armies.asia}}</p>
-    <p><strong>Europa: </strong>{{armies.europe}}</p>
-    <p><strong>Oceania: </strong>{{armies.oceania}}</p>
-    <p><strong>Africa: </strong>{{armies.afrika}}</p>
+<ng-container>
+    <h4>Ejercitos para agregar de {{turn?.player?.name}}: </h4>
+    <p><strong>Libre: </strong>{{turn?.armiesToAdd?.general}}</p>
+    <p><strong>America del norte: </strong>{{turn?.armiesToAdd?.northAmerica}}</p>
+    <p><strong>America central: </strong>{{turn?.armiesToAdd?.centralAmerica}}</p>
+    <p><strong>America del sur: </strong>{{turn?.armiesToAdd?.southAmerica}}</p>
+    <p><strong>Asia: </strong>{{turn?.armiesToAdd?.asia}}</p>
+    <p><strong>Europa: </strong>{{turn?.armiesToAdd?.europe}}</p>
+    <p><strong>Oceania: </strong>{{turn?.armiesToAdd?.oceania}}</p>
+    <p><strong>Africa: </strong>{{turn?.armiesToAdd?.afrika}}</p>
 </ng-container>

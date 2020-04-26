@@ -26,6 +26,8 @@ import { SelectionsComponent } from './components/board/selections/selections.co
 import { AvoidNullPipe } from './pipes/avoid-null.pipe';
 import { DicesComponent } from './components/board/dices/dices.component';
 import { AvailableArmiesComponent } from './components/board/available-armies/available-armies.component';
+import { TurnOrderComponent } from './components/board/turn-order/turn-order.component';
+import { GoalComponent } from './components/board/goal/goal.component';
 
 registerLocaleData(en);
 
@@ -45,7 +47,9 @@ registerLocaleData(en);
     SelectionsComponent,
     AvoidNullPipe,
     DicesComponent,
-    AvailableArmiesComponent
+    AvailableArmiesComponent,
+    TurnOrderComponent,
+    GoalComponent
   ],
   imports: [
     BrowserModule,

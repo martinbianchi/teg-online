@@ -1,0 +1,9 @@
+<div class="players">
+    <h3>Ronda: </h3>
+    <ng-container *ngFor="let player of playersOrder">
+        <nz-tag *ngIf="player.id === currentTurn.id" [nzColor]="player.color">{{player.name}}</nz-tag>
+        <nz-tag *ngIf="player.id !== currentTurn.id">{{player.name}}</nz-tag>
+
+    </ng-container>
+
+</div>

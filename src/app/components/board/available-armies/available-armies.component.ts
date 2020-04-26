@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { ArmiesToAdd } from 'src/app/models/armies-to-add.model';
 import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { map, filter } from 'rxjs/operators';
+import { Turn } from 'src/app/models/turn.model';
 
 @Component({
   selector: 'app-available-armies',
@@ -12,20 +13,14 @@ import { map, filter } from 'rxjs/operators';
 })
 export class AvailableArmiesComponent implements OnInit {
 
-  playerTurnArmies$: Observable<ArmiesToAdd>;
+
+  @Input() turn: Turn;
 
   constructor(
-    private firebaseService: FirebaseService,
-    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
-    const gameId = this.route.snapshot.params['id'];
-    this.playerTurnArmies$ = this.firebaseService.getGame(gameId)
-      .pipe(
-        filter(g => g.started),
-        map(g => g?.round?.turn?.armiesToAdd)
-      );
+
   }
 
 }

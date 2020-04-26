@@ -21,6 +21,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
   @ViewChildren('country') countries: QueryList<ElementRef>;
 
   players$: Observable<Player[]>;
+  game: Game;
 
   firstSelectedCountry$ = this.mapService.firstSelectedCountry$;
   secondSelectedCountry$ = this.mapService.secondSelectedCountry$;
@@ -37,6 +38,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
     const key = this.route.snapshot.params['id'];
     this.players$ = this.firebaseService.getGame(key).pipe(
       tap(g => this.checkWinner(g)),
+      tap(g => this.game = g),
       map(game => game.players),
     );
     // this.gameService.getGamee(key).subscribe();
