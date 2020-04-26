@@ -9,7 +9,6 @@ export class GoalService {
 
     evaluateGoal = (player: Player) => {
         let won = false;
-        debugger;
 
         if (player?.goal.common > 0) {
             won = this.evaluateCommon(player);
@@ -33,19 +32,19 @@ export class GoalService {
         return players.map(p => ({
             afrika: 0,
             asia: 0,
-            centralAmerica: 0,
+            centralamerica: 0,
             common: 0,
             destroyPlayer: _.cloneDeep(p),
             europe: 0,
-            northAmerica: 0,
+            northamerica: 0,
             oceania: 0,
-            southAmerica: 0,
+            southamerica: 0,
             title: `Destruir al ejercito de ${p.name}`,
         }));
     }
 
     assignGoal = (player: Player, goals: Goal[]) => {
-        const goalsToChoose = goals.filter(g => g.destroyPlayer?.id === player.id);
+        const goalsToChoose = goals.filter(g => g.destroyPlayer?.id !== player.id);
         return goalsToChoose.pop();
     }
 
@@ -58,10 +57,10 @@ export class GoalService {
             asia: 0,
             europe: 0,
             afrika: 0,
-            centralAmerica: 0,
-            northAmerica: 0,
+            centralamerica: 0,
+            northamerica: 0,
             oceania: 0,
-            southAmerica: 0,
+            southamerica: 0,
         };
         player.countries.forEach(c => {
             playerCountries[c.continent] = playerCountries[c.continent] + 1;

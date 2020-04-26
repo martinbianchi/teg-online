@@ -25,8 +25,8 @@ export class TurnService {
             return;
         }
 
-        const attackerArmies = this.getAttackerArmies(attacker.armies);
-        const defenderArmies = this.getDeffenderArmies(defender.armies);
+        const attackerArmies = this.getAttackerArmies(this.availableArmies(attacker));
+        const defenderArmies = this.getDeffenderArmies(this.availableArmies(defender));
 
         const attackDices = this.diceService.throwDices(attackerArmies, true);
         const defenderDices = this.diceService.throwDices(defenderArmies, false);
@@ -68,13 +68,17 @@ export class TurnService {
         return !Object.values(armiesToAdd).filter(v => v !== 0).length;
     }
 
+    private availableArmies = (country: Country) => country.armies - country.lockedArmies;
+
     moveArmies = (fromCountry: string, toCountry: string, quantity: number) => {
-        const player = this.gameService.getPlayer(localStorage.getItem('my_id'));
+        const turn = this.gameService.getCurrentTurn();
+        const player = this.gameService.getPlayer(turn.player.id);
+
         const fromCountryIdx = player.countries.findIndex(c => c.name === fromCountry);
         const toCountryIdx = player.countries.findIndex(c => c.name === toCountry);
         const updatedPlayer = _.cloneDeep(player);
 
-        if (updatedPlayer.countries[fromCountryIdx].armies > quantity) {
+        if (this.availableArmies(updatedPlayer.countries[fromCountryIdx]) > quantity) {
             updatedPlayer.countries[fromCountryIdx] = {
                 ...updatedPlayer.countries[fromCountryIdx],
                 armies: updatedPlayer.countries[fromCountryIdx].armies - quantity
@@ -82,7 +86,8 @@ export class TurnService {
 
             updatedPlayer.countries[toCountryIdx] = {
                 ...updatedPlayer.countries[toCountryIdx],
-                armies: updatedPlayer.countries[toCountryIdx].armies + quantity
+                armies: updatedPlayer.countries[toCountryIdx].armies + quantity,
+                lockedArmies: updatedPlayer.countries[toCountryIdx].lockedArmies + quantity
             }
 
             const currentTurn = this.gameService.getCurrentTurn();
@@ -102,7 +107,7 @@ export class TurnService {
         const attackerDices = attacker.sort(this.sortDices);
         const defenderDices = defender.sort(this.sortDices);
         for (let i = 0; i < evaluations; i++) {
-            if (attacker[i] > defender[i]) {
+            if (attackerDices[i] > defenderDices[i]) {
                 defenderLostArmies++;
             } else {
                 attackerLostArmies++;
@@ -146,6 +151,7 @@ export class TurnService {
         if (cardUsedIdx !== -1 && !player.cards[cardUsedIdx].used) {
             if (countryCardIdx !== -1) {
                 player.countries[countryCardIdx].armies += 3;
+                player.countries[countryCardIdx].lockedArmies += 3;
                 player.cards[cardUsedIdx].used = true;
 
                 this.gameService.updateGame2(null, null, player);

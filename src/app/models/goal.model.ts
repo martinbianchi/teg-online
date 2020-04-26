@@ -5,9 +5,9 @@ export interface Goal {
     title: string;
     afrika: number;
     oceania: number;
-    southAmerica: number;
-    northAmerica: number;
-    centralAmerica: number;
+    southamerica: number;
+    northamerica: number;
+    centralamerica: number;
     asia: number;
     europe: number;
     destroyPlayer: Player;

@@ -4,6 +4,7 @@ export interface Country {
     continent: string;
     ownerId: string;
     armies: number;
+    lockedArmies: number;
     rockets: number;
     borderingCountries: string[];
 }

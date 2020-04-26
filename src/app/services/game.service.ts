@@ -56,7 +56,7 @@ export class GameService {
     newGame = () => {
         const countries = _.shuffle(_.cloneDeep(COUNTRIES));
         const players = _.cloneDeep(this.firebaseService._game.players);
-        const goals = _.shuffle([..._.cloneDeep(GOALS), ...this.goalService.createDestroyGoals(players)]);
+        let goals = _.shuffle([..._.cloneDeep(GOALS), ...this.goalService.createDestroyGoals(players)]);
         const countriesPerPlayer = Math.ceil(_.divide(countries.length, players.length));
         const cardsDeck: Card[] = _.shuffle(CARDS).map(c => ({
             country: c.name,
@@ -77,8 +77,11 @@ export class GameService {
                 continent: c.continent,
                 ownerId: p.id,
                 rockets: 0,
-                borderingCountries: c.borderingCountries
+                borderingCountries: c.borderingCountries,
+                lockedArmies: 0,
             }));
+
+            goals = goals.filter(g => p.goal.title !== g.title);
         });
 
         const firstRound = FIRST_ROUND;
@@ -147,9 +150,21 @@ export class GameService {
     }
 
     advanceTurnInRound = (actualRound: Round) => {
-        const actualIdxPlayer = this.firebaseService.playersOrder.findIndex(p => p.id === actualRound.turn.player.id);
+        const updatedPlayers = _.cloneDeep(this.firebaseService._game.players);
+        const playerTurnIdx = updatedPlayers.findIndex(p => p.id === actualRound?.turn?.player?.id);
+
+        if (playerTurnIdx !== -1) {
+            updatedPlayers[playerTurnIdx].countries = updatedPlayers[playerTurnIdx].countries.map(
+                c => ({
+                    ...c,
+                    lockedArmies: 0
+                })
+            );
+        }
+
+        const actualIdxPlayerTurn = this.firebaseService.playersOrder.findIndex(p => p.id === actualRound.turn.player.id);
         const roundWithUpdatedTurn = _.cloneDeep(actualRound);
-        const playerTurn = this.getPlayer(this.firebaseService.playersOrder[actualIdxPlayer + 1].id);
+        const playerTurn = this.getPlayer(this.firebaseService.playersOrder[actualIdxPlayerTurn + 1].id);
         const armiesToAdd = this.calculateArmiesToAdd(playerTurn, actualRound.roundType);
 
         let armiesAdded = false;
@@ -170,7 +185,8 @@ export class GameService {
         roundWithUpdatedTurn.turn = turn;
         this.updateGame({
             ...this.firebaseService._game,
-            round: roundWithUpdatedTurn
+            round: roundWithUpdatedTurn,
+            players: updatedPlayers
         });
 
         // this.firebaseService._rounds.next([
@@ -242,7 +258,8 @@ export class GameService {
                 continent: defender.continent,
                 ownerId: attackerPlayer.id,
                 rockets: 0,
-                borderingCountries: defender.borderingCountries
+                borderingCountries: defender.borderingCountries,
+                lockedArmies: 0,
             });
 
             if (this.hasDetroyedPlayer(defenderPlayer)) {
