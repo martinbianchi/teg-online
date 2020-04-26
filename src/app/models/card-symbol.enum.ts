@@ -1,7 +1,7 @@
 export enum CardSymbolEnum {
-    ANCHOR = 'anchor',
+    TANK = 'tank',
     SHIP = 'ship',
-    BALOON = 'baloon',
+    PLANE = 'plane',
     JOKER = 'joker',
-    DIRECTSWAP = 'direct-swap'
+    DIRECTSWAP = 'direct'
 }

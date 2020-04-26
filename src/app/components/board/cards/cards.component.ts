@@ -19,9 +19,10 @@ import { AuthService } from 'src/app/services/auth.service';
 export class CardsComponent implements OnInit {
 
   myPlayer$: Observable<Player>;
-  cardForm: FormGroup;
+  // cardForm: FormGroup;
 
   cards: Card[];
+  selectedCards: Card[] = [];
 
   constructor(
     private gameService: GameService,
@@ -33,8 +34,14 @@ export class CardsComponent implements OnInit {
     private authService: AuthService,
   ) { }
 
+  gridStyle = {
+    width: '20%',
+    textAlign: 'center',
+    padding: 0,
+  };
+
   ngOnInit(): void {
-    this.cardForm = this.modelCreate();
+    // this.cardForm = this.modelCreate();
     const myId = this.authService.getUserId();
     const key = this.route.snapshot.params['id'];
     this.myPlayer$ = this.firebaseService.getGame(key).pipe(
@@ -44,20 +51,28 @@ export class CardsComponent implements OnInit {
       filter(p => p != null),
       map(players => players?.find(p => p.id === myId)),
       tap((player) => {
-        this.cardForm?.reset();
+        // this.cardForm?.reset();
         this.cards = player?.cards ? player.cards : [];
       })
     );
   }
 
-  modelCreate = () => {
-    return this.fb.group({
-      firstCard: [],
-      secondCard: [],
-      thirdCard: [],
-      fourthCard: [],
-      fifthCard: []
-    });
+  // modelCreate = () => {
+  //   return this.fb.group({
+  //     firstCard: [],
+  //     secondCard: [],
+  //     thirdCard: [],
+  //     fourthCard: [],
+  //     fifthCard: []
+  //   });
+  // }
+
+  onSelectCard = (card: Card) => {
+    this.selectedCards.push(card);
+  }
+
+  onUnselectCard = (card: Card) => {
+    this.selectedCards = this.selectedCards.filter(c => c.country !== card.country);
   }
 
   onUseCard = (card: Card) => {
@@ -65,17 +80,11 @@ export class CardsComponent implements OnInit {
   }
 
   onSwap = () => {
-    const cards = [];
-    Object.values(this.cardForm.value).forEach((selected, i) => {
-      if (selected) {
-        cards.push(this.cards[i]);
-      }
-    });
-
-    const validSwap = this.swapService.validSwap(cards);
+    console.log(this.selectedCards);
+    const validSwap = this.swapService.validSwap(this.selectedCards);
 
     if (validSwap) {
-      this.turnService.makeSwap(cards);
+      this.turnService.makeSwap(this.selectedCards);
     }
   }
 

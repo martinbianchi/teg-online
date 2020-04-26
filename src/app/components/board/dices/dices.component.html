@@ -1,0 +1,8 @@
+<div class="dices">
+    <div class="attacker" *ngIf="(attackerDices$ | async) as attackDices">
+        <span class="dice" *ngFor="let dice of attackDices">{{dice}}</span>
+    </div>
+    <div class="defender" *ngIf="(defenderDices$ | async) as defendDices">
+        <span class="dice" *ngFor="let dice of defendDices">{{dice}}</span>
+    </div>
+</div>

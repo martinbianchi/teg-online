@@ -28,12 +28,12 @@ export class TurnService {
         const attackerArmies = this.getAttackerArmies(attacker.armies);
         const defenderArmies = this.getDeffenderArmies(defender.armies);
 
-        const attackDices = this.diceService.throwDices(attackerArmies);
-        const defenderDices = this.diceService.throwDices(defenderArmies);
+        const attackDices = this.diceService.throwDices(attackerArmies, true);
+        const defenderDices = this.diceService.throwDices(defenderArmies, false);
 
         const attackResult = this.evaluateDices(attackDices, defenderDices);
 
-        const currentTurn = this.gameService.getCurrentTurn();
+        // const currentTurn = this.gameService.getCurrentTurn();
         if (attackResult.defenderLostArmies >= defender.armies) {
             attackResult.conquered = true;
             attackResult.attackerLostArmies += 1;
@@ -99,6 +99,8 @@ export class TurnService {
         const evaluations = Math.min(attacker.length, defender.length);
         let attackerLostArmies = 0;
         let defenderLostArmies = 0;
+        const attackerDices = attacker.sort(this.sortDices);
+        const defenderDices = defender.sort(this.sortDices);
         for (let i = 0; i < evaluations; i++) {
             if (attacker[i] > defender[i]) {
                 defenderLostArmies++;
@@ -113,6 +115,8 @@ export class TurnService {
             conquered: false // Default value, we evaluate outside.
         }
     }
+
+    private sortDices = (a, b) => b - a;
 
     private getAttackerArmies = (armies: number) => {
         // TODO: Check game conditions. for example favor wind

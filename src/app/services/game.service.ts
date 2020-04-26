@@ -55,8 +55,8 @@ export class GameService {
 
     newGame = () => {
         const countries = _.shuffle(_.cloneDeep(COUNTRIES));
-        const goals = _.shuffle(_.cloneDeep(GOALS));
         const players = _.cloneDeep(this.firebaseService._game.players);
+        const goals = _.shuffle([..._.cloneDeep(GOALS), ...this.goalService.createDestroyGoals(players)]);
         const countriesPerPlayer = Math.ceil(_.divide(countries.length, players.length));
         const cardsDeck: Card[] = _.shuffle(CARDS).map(c => ({
             country: c.name,
@@ -68,8 +68,8 @@ export class GameService {
         const playersOrder = _.shuffle(players);
         players.forEach((p, index) => {
             p.cards = [];
-            p.goal = goals.pop(),
-                p.requiredCountriesToGetCard = 1;
+            p.goal = this.goalService.assignGoal(p, goals);
+            p.requiredCountriesToGetCard = 1;
             p.swaps = 0;
             p.countries = chunkedCountries[index].map(c => ({
                 armies: 1,
@@ -251,7 +251,7 @@ export class GameService {
                     attackerPlayer.cards = attackerPlayer.cards ? [
                         ...attackerPlayer.cards,
                         ...defenderPlayer.cards
-                    ] : [...defenderPlayer.cards]
+                    ] : [...defenderPlayer.cards];
                 }
 
                 won = this.goalService.evaluateDestroyGoal(attackerPlayer, defenderPlayer.id);
@@ -293,7 +293,6 @@ export class GameService {
     }
 
     updateGame2 = (turn: Turn, country: Country, player: Player, deck: Card[] = null) => {
-        debugger;
         let updatedGame = _.cloneDeep(this.firebaseService._game);
         if (country) {
             updatedGame = this.updateCountry(country, updatedGame);
@@ -311,7 +310,7 @@ export class GameService {
             updatedGame = {
                 ...updatedGame,
                 cardsDeck: deck
-            }
+            };
         }
 
         this.updateGame(updatedGame);
@@ -327,7 +326,7 @@ export class GameService {
         return {
             ...game,
             players: updatedPlayers,
-        }
+        };
         // this.updateGame({
         //     ...this.firebaseService._game,
         //     players: updatedPlayers
@@ -341,10 +340,13 @@ export class GameService {
     getCountry = (countryName: string): Country => {
         let country;
         this.firebaseService._game.players.forEach(p => {
-            const idx = p.countries.findIndex(c => c.name === countryName);
-            if (idx !== -1) {
-                country = p.countries[idx];
+            if (p.countries) {
+                const idx = p.countries.findIndex(c => c.name === countryName);
+                if (idx !== -1) {
+                    country = p.countries[idx];
+                }
             }
+
         });
 
         return _.cloneDeep(country);
@@ -362,7 +364,7 @@ export class GameService {
         return {
             ...game,
             round: actualRound
-        }
+        };
         // this.updateGame({
         //     ...this.firebaseService._game,
         //     rounds: [

@@ -4,6 +4,26 @@ path:hover {
 
 .container {
     display: flex;
+
+    svg {
+        flex: 100%;
+    }
+}
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: space-around;
+
+    .column {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .row {
+        display: flex;
+    }
 }
 
 .afrika {

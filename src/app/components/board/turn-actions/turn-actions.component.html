@@ -1,19 +1,16 @@
 <ng-container *ngIf="(round$ | async) as round">
-    <button *ngIf="isYourTurn && round.roundType.canAddArmies && !round.turn.armiesAdded" (click)="addArmies()">ADD
+    <button nz-button nzShape="round" nzType="primary"
+        *ngIf="isYourTurn && round.roundType.canAddArmies && !round.turn.armiesAdded" (click)="addArmies()">ADD
         ARMIES </button>
-    <button *ngIf="isYourTurn && round.roundType.canAttack && round.turn.armiesAdded && !round.turn.attacked"
+    <button nz-button nzShape="round" nzType="primary"
+        *ngIf="isYourTurn && round.roundType.canAttack && round.turn.armiesAdded && !round.turn.attacked"
         (click)="attackCountries()">ATTACK</button>
-    <button *ngIf="isYourTurn && round.turn.armiesAdded && round.roundType.canRegroup" (click)="moveArmies()">MOVE
+    <button nz-button nzShape="round" nzType="primary"
+        *ngIf="isYourTurn && round.turn.armiesAdded && round.roundType.canRegroup" (click)="moveArmies()">MOVE
         ARMIES</button>
-    <button
+    <button nz-button nzShape="round" nzType="primary"
         *ngIf="isYourTurn && !round.turn.getCard && round.turn.armiesAdded && round.roundType.canGetCard && round.turn.conqueredCountries >= round.turn.player.requiredCountriesToGetCard"
         (click)="getCard()">GET CARD</button>
-    <button (click)="finishTurn()">FINISH TURN</button>
+    <button nz-button nzShape="round" nzType="primary" nzDanger (click)="finishTurn()">FINISH TURN</button>
 
-    <div>
-        First: {{selectedOne}}
-        Second: {{selectedTwo}}
-    </div>
-
-    <pre>{{round$ | async | json}}</pre>
 </ng-container>

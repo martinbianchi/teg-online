@@ -7,3 +7,9 @@
 .card-container {
     display: flex;
 }
+
+:host {
+    margin-top: 0.2rem;
+    margin-right: 0.5rem;
+    width: 100%;
+}

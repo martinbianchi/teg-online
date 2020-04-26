@@ -1,0 +1,98 @@
+a= avion
+b= barco
+c= cañon/tanque de guerra
+d= dos soldados
+e= explosivo/granada
+
+
+africa: 'c', 'b'
+
+sahara: 'c'
+nigeria: 'c'
+sudafrica: 'c'
+mauritania: 'e'
+madagascar: 'b'
+angola: 'd'
+etiopia: 'a'
+egipto: 'a'
+
+oceania: 'c'
+
+sumatra: 'c'
+filipinas: 'a'
+tonga: 'c'
+australia: 'a'
+tasmania: 'c'
+nueva zelanda: 'c'
+
+asia: 'e'
+
+rusia: 'c'
+iran: 'b'
+irak: 'b'
+israel: 'b'
+arabia: 'a'
+turquia: 'c'
+india: 'b'
+vietnam: 'c'
+malasia: 'b'
+corea: 'a'
+china: 'a'
+japon: 'b'
+kamchatka: 'b'
+chokchi: 'a'
+siberia: 'c'
+chechenia: 'e'
+
+europa: 'e'
+
+islandia: 'b'
+irlanda: 'a'
+gran bretaña: 'b'
+portugal: 'c'
+españa: 'a'
+francia: 'b'
+italia: 'b'
+alemania: 'd'
+croacia: 'a'
+polonia: 'c'
+albania: 'd'
+ucrania: 'e'
+bielorrusia: 'a'
+finlandia: 'b'
+noruega: 'c'
+
+america del norte: 'e'
+
+alaska: 'd'
+canada: 'a'
+oregon: 'c'
+las vegas: 'e'
+california: 'a'
+florida: 'b'
+chicago: 'a'
+terranova: 'c'
+nueva york: 'c'
+groenlandia: 'b'
+labrador: 'b'
+isla victoria: 'b'
+
+america central: 'a'
+
+mexico: 'b'
+cuba: 'a'
+honduras: 'b'
+el salvador: 'a'
+nicaragua: 'b'
+jamaica: 'b'
+
+america del sur: 'a', 'b'
+
+colombia: 'a'
+venezuela: 'c'
+chile: 'a'
+bolivia: 'a'
+argentina: 'e'
+uruguay: 'c'
+paraguay: 'c'
+brasil: 'a'

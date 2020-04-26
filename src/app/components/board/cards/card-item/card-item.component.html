@@ -1,0 +1,14 @@
+<nz-card nzHoverable [nzCover]="coverTemplate" [nzActions]="[useAction, swapAction]">
+    <nz-card-meta nzTitle="{{card.country}}"></nz-card-meta>
+</nz-card>
+<ng-template #coverTemplate>
+    <img alt="example" [src]="urlToSvg" />
+</ng-template>
+
+<ng-template #useAction>
+    <i (click)="onUseCard()" *ngIf="!card.used" nz-icon nzType="swap"></i>
+</ng-template>
+
+<ng-template #swapAction>
+    <label [(ngModel)]="checked" (ngModelChange)="onChange($event)" nz-checkbox></label>
+</ng-template>

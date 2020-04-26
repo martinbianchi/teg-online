@@ -1,0 +1,8 @@
+<nz-row [nzGutter]="16" class="container">
+    <nz-col [nzSpan]="12">
+        <nz-statistic [nzValue]="from$ | async | avoidNull" [nzTitle]="'Desde'"></nz-statistic>
+    </nz-col>
+    <nz-col [nzSpan]="12">
+        <nz-statistic [nzValue]="to$ | async | avoidNull" [nzTitle]="'Hacia'"></nz-statistic>
+    </nz-col>
+</nz-row>

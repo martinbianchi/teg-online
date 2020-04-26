@@ -1,0 +1,21 @@
+.dices {
+    display: flex;
+
+    .attacker {
+        display: flex;
+        flex-direction: column;
+    }
+    .defender {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .dice {
+        padding: 0.5rem 1rem;
+        background: white;
+        border: 1px solid;
+        font-size: 1.5rem;
+        border-radius: 0.2rem;
+        margin: 0.5rem;
+    }
+}

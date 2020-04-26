@@ -21,6 +21,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { CongratsComponent } from './components/congrats/congrats.component';
+import { CardItemComponent } from './components/board/cards/card-item/card-item.component';
+import { SelectionsComponent } from './components/board/selections/selections.component';
+import { AvoidNullPipe } from './pipes/avoid-null.pipe';
+import { DicesComponent } from './components/board/dices/dices.component';
+import { AvailableArmiesComponent } from './components/board/available-armies/available-armies.component';
 
 registerLocaleData(en);
 
@@ -35,7 +40,12 @@ registerLocaleData(en);
     LobbyComponent,
     LoginComponent,
     HomeComponent,
-    CongratsComponent
+    CongratsComponent,
+    CardItemComponent,
+    SelectionsComponent,
+    AvoidNullPipe,
+    DicesComponent,
+    AvailableArmiesComponent
   ],
   imports: [
     BrowserModule,

@@ -1,5 +1,26 @@
 <ng-container *ngIf="(myPlayer$ | async) as me">
+
+    <!-- <div class="card-container">
+        <app-card-item></app-card-item>
+        <app-card-item></app-card-item>
+        <app-card-item></app-card-item>
+        <app-card-item></app-card-item>
+        <app-card-item></app-card-item>
+
+    </div> -->
+
+    <nz-card nzTitle="Country cards">
+        <app-card-item *ngFor="let card of me?.cards" [card]="card" (useCard)="onUseCard($event)"
+            (selectCard)="onSelectCard($event)" (unselectCard)="onUnselectCard($event)" nz-card-grid
+            [ngStyle]="gridStyle"> </app-card-item>
+
+        <button *ngIf="me?.cards?.length > 0" (click)="onSwap()" nz-button style="width:100%">SWAP</button>
+    </nz-card>
+
+    <!-- 
     <div class="card-container" [formGroup]="cardForm" *ngIf="me?.cards?.length > 0">
+
+
         <div class="card">
             <p>{{me.cards[0]?.symbol}}</p>
             <p>{{me.cards[0]?.country}}</p>
@@ -47,5 +68,5 @@
         </div>
 
         <button (click)="onSwap()" *ngIf="me.cards.length">SWAP</button>
-    </div>
+    </div> -->
 </ng-container>

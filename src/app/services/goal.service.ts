@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Goal } from '../models/goal.model';
 import { Player } from '../models/player.model';
+import * as _ from 'lodash';
 
 @Injectable({ providedIn: 'root' })
 export class GoalService {
@@ -8,12 +9,14 @@ export class GoalService {
 
     evaluateGoal = (player: Player) => {
         let won = false;
+        debugger;
 
         if (player?.goal.common > 0) {
             won = this.evaluateCommon(player);
         }
-        won = this.evaluateCountriesGoal(player);
-        // TODO: implement destroy.
+        else if (!player?.goal?.destroyPlayer) {
+            won = this.evaluateCountriesGoal(player);
+        }
 
         if (!won) {
             won = this.evaluateNoGoal(player);
@@ -26,9 +29,29 @@ export class GoalService {
         return player.goal.destroyPlayer?.id === destroyedPlayerId;
     }
 
+    createDestroyGoals = (players: Player[]): Goal[] => {
+        return players.map(p => ({
+            afrika: 0,
+            asia: 0,
+            centralAmerica: 0,
+            common: 0,
+            destroyPlayer: _.cloneDeep(p),
+            europe: 0,
+            northAmerica: 0,
+            oceania: 0,
+            southAmerica: 0,
+            title: `Destruir al ejercito de ${p.name}`,
+        }));
+    }
+
+    assignGoal = (player: Player, goals: Goal[]) => {
+        const goalsToChoose = goals.filter(g => g.destroyPlayer?.id === player.id);
+        return goalsToChoose.pop();
+    }
+
     private evaluateCommon = (player: Player) => {
         return player.countries.length >= player.goal.common;
-    };
+    }
 
     private evaluateCountriesGoal = (player: Player) => {
         const playerCountries = {
@@ -52,9 +75,11 @@ export class GoalService {
         });
 
         return won;
-    };
+    }
 
     private evaluateNoGoal = (player: Player) => {
         return player.countries.length >= this.COMMON_GOAL;
-    };
+    }
+
+
 }
