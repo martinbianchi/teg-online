@@ -1,8 +1,8 @@
 export interface ArmiesToAdd {
     general: number;
-    northAmerica: number;
-    centralAmerica: number;
-    southAmerica: number;
+    northamerica: number;
+    centralamerica: number;
+    southamerica: number;
     afrika: number;
     asia: number;
     europe: number;

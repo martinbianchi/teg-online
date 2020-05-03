@@ -187,13 +187,13 @@ export class GameService {
         // ADD NEW CONTINENT CARDS.
         CONTINENTS.forEach(continent => {
             if (playerCountriesPerContinent[continent] === QUANTITY_COUNTRIES_PER_CONTINENT[continent]) {
-                if (!this.alreadyHasCard(player.continentCards, continent) && this.alreadyUsedCard(player, continent)) {
+                if (!this.alreadyHasCard(player.continentCards, continent) && !this.alreadyUsedCard(player, continent)) {
                     const continentCard = CONTINENT_CARDS.find(c => c.name === continent);
                     const card = {
                         symbol: continentCard.symbol,
                         country: continentCard.name,
                         used: true
-                    }
+                    };
                     player.continentCards = player.continentCards ? [
                         ...player.continentCards,
                         card
@@ -206,7 +206,7 @@ export class GameService {
     }
 
     private alreadyHasCard = (continentCards: Card[], continent: string) => continentCards.filter(c => c.country === continent).length;
-    private alreadyUsedCard = (player: Player, continent: string) => player.continentCards[continent];
+    private alreadyUsedCard = (player: Player, continent: string) => player.continentUsedCards[continent];
 
     private resetLockedArmies = (player: Player): Player => {
         player.countries = player.countries.map(
@@ -276,20 +276,20 @@ export class GameService {
             asia: playerCountriesPerContinent['asia'] === QUANTITY_COUNTRIES_PER_CONTINENT['asia']
                 ? ARMIES_PER_CONTINENT['asia']
                 : 0,
-            centralAmerica: playerCountriesPerContinent['centralamerica'] === QUANTITY_COUNTRIES_PER_CONTINENT['centralamerica']
+            centralamerica: playerCountriesPerContinent['centralamerica'] === QUANTITY_COUNTRIES_PER_CONTINENT['centralamerica']
                 ? ARMIES_PER_CONTINENT['centralamerica']
                 : 0,
             europe: playerCountriesPerContinent['europe'] === QUANTITY_COUNTRIES_PER_CONTINENT['europe']
                 ? ARMIES_PER_CONTINENT['europe']
                 : 0,
             general: generalArmiesToAdd,
-            northAmerica: playerCountriesPerContinent['northamerica'] === QUANTITY_COUNTRIES_PER_CONTINENT['northamerica']
+            northamerica: playerCountriesPerContinent['northamerica'] === QUANTITY_COUNTRIES_PER_CONTINENT['northamerica']
                 ? ARMIES_PER_CONTINENT['northamerica']
                 : 0,
             oceania: playerCountriesPerContinent['oceania'] === QUANTITY_COUNTRIES_PER_CONTINENT['oceania']
                 ? ARMIES_PER_CONTINENT['oceania']
                 : 0,
-            southAmerica: playerCountriesPerContinent['southamerica'] === QUANTITY_COUNTRIES_PER_CONTINENT['southamerica']
+            southamerica: playerCountriesPerContinent['southamerica'] === QUANTITY_COUNTRIES_PER_CONTINENT['southamerica']
                 ? ARMIES_PER_CONTINENT['southamerica']
                 : 0,
         };
@@ -323,10 +323,12 @@ export class GameService {
         let winner = null;
         let won = false;
         if (attackResult.conquered) {
+            const armiesToPass = quantityArmies >= attackerPlayer.countries[countryAttackerIdx].armies ? attackerPlayer.countries[countryAttackerIdx].armies - 1 : quantityArmies
+            attackerPlayer.countries[countryAttackerIdx].armies -= armiesToPass;
             updatedTurn.conqueredCountries += 1;
             defenderPlayer.countries = defenderPlayer.countries.filter(c => c.name !== defender.name);
             attackerPlayer.countries.push({
-                armies: quantityArmies,
+                armies: armiesToPass,
                 name: defender.name,
                 continent: defender.continent,
                 ownerId: attackerPlayer.id,

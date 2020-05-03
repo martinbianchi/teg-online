@@ -37,7 +37,6 @@ export class TurnService {
         // const currentTurn = this.gameService.getCurrentTurn();
         if (attackResult.defenderLostArmies >= defender.armies) {
             attackResult.conquered = true;
-            attackResult.attackerLostArmies += 1;
         }
 
         // this.gameService.updateAfterAttack(attacker, defender, attackResult, currentTurn);

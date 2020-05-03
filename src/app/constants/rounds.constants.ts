@@ -23,12 +23,12 @@ export const FIRST_ROUND: Round = {
         armiesToAdd: {
             afrika: 0,
             asia: 0,
-            centralAmerica: 0,
+            centralamerica: 0,
             europe: 0,
             general: 8,
-            northAmerica: 0,
+            northamerica: 0,
             oceania: 0,
-            southAmerica: 0
+            southamerica: 0
         },
         attacked: false,
         getCard: false,
@@ -61,12 +61,12 @@ export const SECOND_ROUND: Round = {
         armiesToAdd: {
             afrika: 0,
             asia: 0,
-            centralAmerica: 0,
+            centralamerica: 0,
             europe: 0,
             general: 8,
-            northAmerica: 0,
+            northamerica: 0,
             oceania: 0,
-            southAmerica: 0
+            southamerica: 0
         },
         attacked: false,
         getCard: false,
@@ -99,12 +99,12 @@ export const THIRD_ROUND: Round = {
         armiesToAdd: {
             afrika: 0,
             asia: 0,
-            centralAmerica: 0,
+            centralamerica: 0,
             europe: 0,
             general: 0,
-            northAmerica: 0,
+            northamerica: 0,
             oceania: 0,
-            southAmerica: 0
+            southamerica: 0
         },
         attacked: false,
         getCard: false,
@@ -137,12 +137,12 @@ export const CLASSIC_COMBAT: Round = {
         armiesToAdd: {
             afrika: 0,
             asia: 0,
-            centralAmerica: 0,
+            centralamerica: 0,
             europe: 0,
             general: 0,
-            northAmerica: 0,
+            northamerica: 0,
             oceania: 0,
-            southAmerica: 0
+            southamerica: 0
         },
         attacked: false,
         getCard: false,
