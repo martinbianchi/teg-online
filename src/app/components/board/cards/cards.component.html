@@ -9,8 +9,11 @@
 
     </div> -->
 
-    <nz-card nzTitle="Country cards">
+    <nz-card nzTitle="Cards">
         <app-card-item *ngFor="let card of me?.cards" [card]="card" (useCard)="onUseCard($event)"
+            (selectCard)="onSelectCard($event)" (unselectCard)="onUnselectCard($event)" nz-card-grid
+            [ngStyle]="gridStyle"> </app-card-item>
+        <app-card-item *ngFor="let card of me?.continentCards" [card]="card" (useCard)="onUseCard($event)"
             (selectCard)="onSelectCard($event)" (unselectCard)="onUnselectCard($event)" nz-card-grid
             [ngStyle]="gridStyle"> </app-card-item>
 

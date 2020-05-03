@@ -73,7 +73,17 @@ export class LobbyComponent implements OnInit {
       id: this.authService.getUserId(),
       name: this.nickname.value,
       requiredCountriesToGetCard: null,
-      swaps: null
+      swaps: null,
+      continentCards: [],
+      continentUsedCards: {
+        afrika: false,
+        asia: false,
+        centralamerica: false,
+        europe: false,
+        northamerica: false,
+        oceania: false,
+        southamerica: false,
+      }
     };
 
     this.gameService.joinGame(player);

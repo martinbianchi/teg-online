@@ -6,7 +6,6 @@ import { CardSymbolEnum } from '../models/card-symbol.enum';
 export class SwapService {
     constructor() { }
 
-
     getNumberOfArmies = (numberOfSwaps) => {
         if (numberOfSwaps === 1) {
             return 6;
@@ -33,7 +32,28 @@ export class SwapService {
             return this.threeDifferents(cards);
         }
 
+        if (cards.length === 2) {
+            // Continent card included. Southamerica or Afrika.
+            if (this.hasSouthAmerica(cards)) {
+                // southamerica has ship and plane, we need a tank or a joker.
+                return cards.filter(c => c.symbol === CardSymbolEnum.TANK || c.symbol === CardSymbolEnum.JOKER).length;
+            }
+
+            if (this.hasAfrika(cards)) {
+                // southamerica has ship and tank, we need a plane or a joker.
+                return cards.filter(c => c.symbol === CardSymbolEnum.PLANE || c.symbol === CardSymbolEnum.JOKER).length;
+            }
+        }
+
         return false;
+    }
+
+    private hasSouthAmerica = (cards: Card[]) => {
+        return cards.filter(c => c.country === 'southamerica').length;
+    }
+
+    private hasAfrika = (cards: Card[]) => {
+        return cards.filter(c => c.country === 'afrika').length;
     }
 
     private hasJoker = (cards: Card[]) => {

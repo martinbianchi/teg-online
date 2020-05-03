@@ -57,7 +57,17 @@ export class HomeComponent implements OnInit {
       id: userId,
       name: this.nickname.value,
       requiredCountriesToGetCard: null,
-      swaps: null
+      swaps: null,
+      continentCards: [],
+      continentUsedCards: {
+        afrika: false,
+        asia: false,
+        centralamerica: false,
+        europe: false,
+        northamerica: false,
+        oceania: false,
+        southamerica: false,
+      }
     };
 
     localStorage.setItem('my_id', userId);

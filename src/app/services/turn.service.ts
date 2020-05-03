@@ -9,6 +9,7 @@ import * as _ from 'lodash';
 import { ArmiesToAdd } from '../models/armies-to-add.model';
 import { Card } from '../models/card.model';
 import { SwapService } from './swap.service';
+import { CONTINENTS } from '../constants/countries.constants';
 
 @Injectable({ providedIn: 'root' })
 export class TurnService {
@@ -195,9 +196,17 @@ export class TurnService {
 
         const cardsToSwapNames = cards.map(c => c.country);
         const cardsUpdated = player.cards.filter(c => !cardsToSwapNames.includes(c.country));
+        const continentsCardUpdated = player?.continentCards?.filter(c => !cardsToSwapNames.includes(c.country));
 
+        cardsToSwapNames.forEach(name => {
+            const isContinent = CONTINENTS.includes(name);
+            if (isContinent) {
+                player.continentUsedCards[name] = true;
+            }
+        })
         player.swaps += 1;
         player.cards = cardsUpdated;
+        player.continentCards = continentsCardUpdated;
 
         const quantityOfArmies = this.swapService.getNumberOfArmies(player.swaps);
         turn.armiesToAdd.general += quantityOfArmies;

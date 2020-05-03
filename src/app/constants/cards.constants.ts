@@ -1,4 +1,5 @@
 import { CardSymbolEnum } from '../models/card-symbol.enum';
+import { Card } from '../models/card.model';
 
 export const CARDS = [
     { name: 'sahara', symbol: CardSymbolEnum.TANK },
@@ -73,3 +74,13 @@ export const CARDS = [
     { name: 'paraguay', symbol: CardSymbolEnum.TANK },
     { name: 'brasil', symbol: CardSymbolEnum.PLANE },
 ];
+
+export const CONTINENT_CARDS = [
+    { name: 'afrika', symbol: CardSymbolEnum.SHIP_TANK },
+    { name: 'oceania', symbol: CardSymbolEnum.TANK },
+    { name: 'northamerica', symbol: CardSymbolEnum.DIRECTSWAP },
+    { name: 'asia', symbol: CardSymbolEnum.DIRECTSWAP },
+    { name: 'europe', symbol: CardSymbolEnum.DIRECTSWAP },
+    { name: 'southamerica', symbol: CardSymbolEnum.SHIP_PLANE },
+    { name: 'centralamerica', symbol: CardSymbolEnum.PLANE }
+]

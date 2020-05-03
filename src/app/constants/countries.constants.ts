@@ -81,3 +81,32 @@ export const COUNTRIES = [
 
 ];
 
+export const QUANTITY_COUNTRIES_PER_CONTINENT = {
+    northamerica: 12,
+    centralamerica: 6,
+    southamerica: 8,
+    oceania: 6,
+    afrika: 8,
+    asia: 16,
+    europe: 16
+};
+
+export const ARMIES_PER_CONTINENT = {
+    northamerica: 6,
+    centralamerica: 3,
+    southamerica: 4,
+    oceania: 3,
+    afrika: 4,
+    asia: 8,
+    europe: 8
+};
+
+export const CONTINENTS = [
+    'northamerica',
+    'centralamerica',
+    'southamerica',
+    'oceania',
+    'afrika',
+    'asia',
+    'europe',
+];

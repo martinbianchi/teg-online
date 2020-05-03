@@ -5,10 +5,10 @@ import { Country } from '../models/country.model';
 
 import * as _ from 'lodash';
 import { Player } from '../models/player.model';
-import { COUNTRIES } from '../constants/countries.constants';
+import { COUNTRIES, CONTINENTS, QUANTITY_COUNTRIES_PER_CONTINENT, ARMIES_PER_CONTINENT } from '../constants/countries.constants';
 import { Round } from '../models/round.model';
 import { FIRST_ROUND, SECOND_ROUND, THIRD_ROUND, CLASSIC_COMBAT } from '../constants/rounds.constants';
-import { CARDS } from '../constants/cards.constants';
+import { CARDS, CONTINENT_CARDS } from '../constants/cards.constants';
 import { Turn } from '../models/turn.model';
 import { ArmiesToAdd } from '../models/armies-to-add.model';
 import { RoundType } from '../models/round-type.model';
@@ -80,7 +80,16 @@ export class GameService {
                 borderingCountries: c.borderingCountries,
                 lockedArmies: 0,
             }));
-
+            p.continentCards = [];
+            p.continentUsedCards = {
+                afrika: false,
+                asia: false,
+                centralamerica: false,
+                europe: false,
+                northamerica: false,
+                oceania: false,
+                southamerica: false,
+            };
             goals = goals.filter(g => p.goal.title !== g.title);
         });
 
@@ -104,6 +113,7 @@ export class GameService {
         const lastRound = _.cloneDeep(this.firebaseService._round);
         let round: Round;
         const firstPlayer = this.getPlayer(this.firebaseService.playersOrder[0].id);
+        let updatedPlayers = _.cloneDeep(this.firebaseService._game.players);
         if (lastRound.roundType.isFirst) {
             round = SECOND_ROUND;
             round.turn.player = firstPlayer;
@@ -113,6 +123,7 @@ export class GameService {
             round = THIRD_ROUND;
             round.turn.player = firstPlayer;
         } else {
+            updatedPlayers = updatedPlayers.map(this.resetLockedArmies).map(this.checkContinentCards);
             round = CLASSIC_COMBAT;
             round.turn.player = firstPlayer;
             round.number = lastRound.number + 1;
@@ -122,15 +133,15 @@ export class GameService {
 
         this.updateGame({
             ...this.firebaseService._game,
-            round
+            round,
+            players: updatedPlayers
         });
     }
 
     finishTurn = () => {
-
         const actualRound = _.cloneDeep(this.firebaseService._round);
 
-        const player = actualRound.turn.player;
+        let player = actualRound.turn.player;
         const hasWon = this.goalService.evaluateGoal(player);
 
         if (hasWon) {
@@ -140,27 +151,77 @@ export class GameService {
                 winner: player
             });
         } else {
-            if (this.isLastTurnOfRound(actualRound.turn.player)) {
+            if (this.isLastTurnOfRound(player)) {
                 this.getNextRound();
             } else {
                 this.advanceTurnInRound(actualRound);
             }
         }
+    }
 
+    private calculateCountriesPerContinent = (player: Player) => {
+        const playerCountriesPerContinent = {};
+        player.countries.forEach(c => {
+            if (playerCountriesPerContinent[c.continent]) {
+                playerCountriesPerContinent[c.continent] += 1;
+            }
+            else {
+                playerCountriesPerContinent[c.continent] = 1;
+            }
+        });
+
+        return playerCountriesPerContinent;
+    }
+
+    private checkContinentCards = (player: Player): Player => {
+        const playerCountriesPerContinent = this.calculateCountriesPerContinent(player);
+
+        if (!player.continentCards) {
+            player.continentCards = [];
+        }
+
+        // REMOVE IF LOST CONTINENT
+        player.continentCards = player.continentCards
+            .filter(card => playerCountriesPerContinent[card.country] === QUANTITY_COUNTRIES_PER_CONTINENT[card.country]);
+
+        // ADD NEW CONTINENT CARDS.
+        CONTINENTS.forEach(continent => {
+            if (playerCountriesPerContinent[continent] === QUANTITY_COUNTRIES_PER_CONTINENT[continent]) {
+                if (!this.alreadyHasCard(player.continentCards, continent) && this.alreadyUsedCard(player, continent)) {
+                    const continentCard = CONTINENT_CARDS.find(c => c.name === continent);
+                    const card = {
+                        symbol: continentCard.symbol,
+                        country: continentCard.name,
+                        used: true
+                    }
+                    player.continentCards = player.continentCards ? [
+                        ...player.continentCards,
+                        card
+                    ] : [card];
+                }
+            }
+        });
+
+        return player;
+    }
+
+    private alreadyHasCard = (continentCards: Card[], continent: string) => continentCards.filter(c => c.country === continent).length;
+    private alreadyUsedCard = (player: Player, continent: string) => player.continentCards[continent];
+
+    private resetLockedArmies = (player: Player): Player => {
+        player.countries = player.countries.map(
+            c => ({
+                ...c,
+                lockedArmies: 0
+            })
+        );
+
+        return player;
     }
 
     advanceTurnInRound = (actualRound: Round) => {
-        const updatedPlayers = _.cloneDeep(this.firebaseService._game.players);
-        const playerTurnIdx = updatedPlayers.findIndex(p => p.id === actualRound?.turn?.player?.id);
-
-        if (playerTurnIdx !== -1) {
-            updatedPlayers[playerTurnIdx].countries = updatedPlayers[playerTurnIdx].countries.map(
-                c => ({
-                    ...c,
-                    lockedArmies: 0
-                })
-            );
-        }
+        let updatedPlayers = _.cloneDeep(this.firebaseService._game.players);
+        updatedPlayers = updatedPlayers.map(this.resetLockedArmies).map(this.checkContinentCards);
 
         const actualIdxPlayerTurn = this.firebaseService.playersOrder.findIndex(p => p.id === actualRound.turn.player.id);
         const roundWithUpdatedTurn = _.cloneDeep(actualRound);
@@ -206,19 +267,33 @@ export class GameService {
         } else {
             generalArmiesToAdd = Math.max(Math.trunc(_.divide(player.countries.length, 2)), 4);
         }
-
-
+        const playerCountriesPerContinent = this.calculateCountriesPerContinent(player);
 
         const result = {
-            afrika: 0,
-            asia: 0,
-            centralAmerica: 0,
-            europe: 0,
+            afrika: playerCountriesPerContinent['afrika'] === QUANTITY_COUNTRIES_PER_CONTINENT['afrika']
+                ? ARMIES_PER_CONTINENT['afrika']
+                : 0,
+            asia: playerCountriesPerContinent['asia'] === QUANTITY_COUNTRIES_PER_CONTINENT['asia']
+                ? ARMIES_PER_CONTINENT['asia']
+                : 0,
+            centralAmerica: playerCountriesPerContinent['centralamerica'] === QUANTITY_COUNTRIES_PER_CONTINENT['centralamerica']
+                ? ARMIES_PER_CONTINENT['centralamerica']
+                : 0,
+            europe: playerCountriesPerContinent['europe'] === QUANTITY_COUNTRIES_PER_CONTINENT['europe']
+                ? ARMIES_PER_CONTINENT['europe']
+                : 0,
             general: generalArmiesToAdd,
-            northAmerica: 0,
-            oceania: 0,
-            southAmerica: 0,
+            northAmerica: playerCountriesPerContinent['northamerica'] === QUANTITY_COUNTRIES_PER_CONTINENT['northamerica']
+                ? ARMIES_PER_CONTINENT['northamerica']
+                : 0,
+            oceania: playerCountriesPerContinent['oceania'] === QUANTITY_COUNTRIES_PER_CONTINENT['oceania']
+                ? ARMIES_PER_CONTINENT['oceania']
+                : 0,
+            southAmerica: playerCountriesPerContinent['southamerica'] === QUANTITY_COUNTRIES_PER_CONTINENT['southamerica']
+                ? ARMIES_PER_CONTINENT['southamerica']
+                : 0,
         };
+
         return result;
     }
 
@@ -226,8 +301,6 @@ export class GameService {
         const idxPlayer = this.firebaseService.playersOrder.findIndex(p => p.id === player.id);
         return idxPlayer === (this.firebaseService.playersOrder.length - 1);
     }
-
-
 
     updateAfterAttack = (attackerCountry: string, defenderCountry: string, attackResult: AttackResult, quantityArmies: number = 1) => {
         let updatedGame = _.cloneDeep(this.firebaseService._game);

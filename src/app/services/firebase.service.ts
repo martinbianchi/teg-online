@@ -81,14 +81,14 @@ export class FirebaseService {
     pushAttackDices = (dices: number[]) => {
         const itemRef = this.db.object(`dices/${this._gameId}/attackDices`);
         setTimeout(() => {
-            itemRef.update(dices);
+            itemRef.set(dices);
         }, 1000);
     }
 
     pushDefendDices = (dices: number[]) => {
         const itemRef = this.db.object(`dices/${this._gameId}/defendDices`);
         setTimeout(() => {
-            itemRef.update(dices);
+            itemRef.set(dices);
         }, 1000);
     }
 
