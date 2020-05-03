@@ -11,6 +11,7 @@
     <button nz-button nzShape="round" nzType="primary"
         *ngIf="isYourTurn && !round.turn.getCard && round.turn.armiesAdded && round.roundType.canGetCard && round.turn.conqueredCountries >= round.turn.player.requiredCountriesToGetCard"
         (click)="getCard()">GET CARD</button>
-    <button nz-button nzShape="round" nzType="primary" nzDanger (click)="finishTurn()">FINISH TURN</button>
+    <button *ngIf="isYourTurn" nz-button nzShape="round" nzType="primary" nzDanger (click)="finishTurn()">FINISH
+        TURN</button>
 
 </ng-container>

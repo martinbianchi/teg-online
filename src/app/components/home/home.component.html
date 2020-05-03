@@ -9,7 +9,7 @@
                 <nz-skeleton *ngIf="!item" [nzParagraph]="{ rows: 1 }"></nz-skeleton>
                 <nz-list-item-meta *ngIf="item" [nzTitle]="nzTitle">
                     <ng-template #nzTitle>
-                        <p>{{ item.key }}</p>
+                        <p>{{ item.name }}</p>
                     </ng-template>
                 </nz-list-item-meta>
             </nz-list-item>
@@ -39,9 +39,9 @@
         <label nz-radio nzValue="red">red</label>
         <label nz-radio nzValue="green">green</label>
         <label nz-radio nzValue="blue">blue</label>
-        <label nz-radio nzValue="pink">pink</label>
-        <label nz-radio nzValue="yellow">yellow</label>
-        <label nz-radio nzValue="white">white</label>
+        <label nz-radio nzValue="deeppink">pink</label>
+        <label nz-radio nzValue="orange">orange</label>
+        <label nz-radio nzValue="black">black</label>
     </nz-radio-group>
     <nz-divider></nz-divider>
     <nz-form-control [nzSpan]="14" [nzOffset]="20">

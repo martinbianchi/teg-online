@@ -68,7 +68,7 @@ path:hover {
 
 .centralamerica {
     stroke: #e2db9b !important;
-    fill: #fff497 !important;
+    fill: #ffef64 !important;
     stroke-width: 0.5px !important;
 
     &.first-selected {
@@ -85,7 +85,7 @@ path:hover {
 }
 
 .southamerica {
-    fill: #a6fff7 !important;
+    fill: #4fffef !important;
     stroke-width: 0.5px !important;
     stroke: #88d3cd !important;
 
@@ -116,15 +116,15 @@ path:hover {
 }
 
 .europe {
-    fill: #fdc9ef !important;
+    fill: #ffa8e8 !important;
     stroke: #c192b4 !important;
     stroke-width: 0.5px !important;
 
     &.first-selected {
-        fill: #fdc9ef !important;
+        fill: #f7dcf0 !important;
     }
     &.second-selected {
-        fill: #fdc9ef !important;
+        fill: #f7dcf0 !important;
     }
     &:hover {
         fill: #c192b4 !important;
@@ -133,7 +133,7 @@ path:hover {
 
 .asia {
     stroke: #a4c795 !important;
-    fill: #daf3cf !important;
+    fill: #cdf1bd !important;
     stroke-width: 0.5px !important;
 
     &.first-selected {

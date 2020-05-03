@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { DUMMY_PLAYERS } from 'src/app/constants/players.constants';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Player } from 'src/app/models/player.model';
+import { tap, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +15,12 @@ import { Player } from 'src/app/models/player.model';
 })
 export class HomeComponent implements OnInit {
 
-  games$ = this.firebaseService.getAllGames();
+  games$ = this.firebaseService.getAllGames().pipe(
+    map(g => g.map(game => ({
+      key: game.key,
+      ...game.payload.val() as any
+    })))
+  );
   user$ = this.authService.userLogged$;
 
   newGameForm: FormGroup;

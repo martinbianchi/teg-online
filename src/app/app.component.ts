@@ -11,8 +11,6 @@ import { Router } from '@angular/router';
 })
 export class AppComponent implements OnInit {
 
-  allGames$ = this.firebaseService.getAllGames();
-
   constructor(
     private firebaseService: FirebaseService,
     private authFire: AngularFireAuth,
